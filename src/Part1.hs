@@ -87,7 +87,7 @@ prob4 :: Integer -> Integer
 --TODO почему фибонначи от 0 = 1 ??? https://ru.wikipedia.org/wiki/%D0%9E%D0%B1%D0%BE%D0%B1%D1%89%D0%B5%D0%BD%D0%B8%D0%B5_%D1%87%D0%B8%D1%81%D0%B5%D0%BB_%D0%A4%D0%B8%D0%B1%D0%BE%D0%BD%D0%B0%D1%87%D1%87%D0%B8#%D0%A0%D0%B0%D1%81%D1%88%D0%B8%D1%80%D0%B5%D0%BD%D0%B8%D0%B5_%D0%BD%D0%B0_%D0%BE%D1%82%D1%80%D0%B8%D1%86%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5_%D1%87%D0%B8%D1%81%D0%BB%D0%B0
 prob4 0 = 0
 prob4 1 = 1
-prob4 (-1) = 0 
+prob4 (-1) = 0
 prob4 n = if n>0 then prob4 (n - 1) + prob4 (n - 2) else (-1)^abs n * prob4(abs (n+1))
 
 
@@ -100,4 +100,4 @@ prob4 n = if n>0 then prob4 (n - 1) + prob4 (n - 2) else (-1)^abs n * prob4(abs 
 -- Числа n и k положительны и не превосходят 10^8.
 -- Число 1 не считается простым числом
 prob5 :: Integer -> Integer -> Bool
-prob5 = error "Implement me!"
+prob5 n k = last ([p | p <- [2 .. n], n `mod` p == 0, [d | d <- [1 .. p], p `mod` d == 0] == [1, p]]) < k
