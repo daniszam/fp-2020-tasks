@@ -15,7 +15,7 @@ module Part1
 --
 -- На вход функции подаются неотрицательные числа
 prob1 :: Int -> Int
-prob1 x = error "Implement me!"
+prob1 x = mod (x*3 + 123) 65537
 
 
 ------------------------------------------------------------
@@ -25,7 +25,7 @@ prob1 x = error "Implement me!"
 -- * нечётные числа увеличивает втрое и добавляет единицу
 -- * чётные числа делит на два
 prob2 :: Integer -> Integer
-prob2 n = error "Implement me!"
+prob2 n = if n `mod` 2 == 1 then n*3 + 1 else n `div` 2
 
 
 ------------------------------------------------------------
@@ -50,7 +50,23 @@ prob2 n = error "Implement me!"
 --
 -- Для любой функции step и n == 1 ответом будет 0.
 prob3 :: (Integer -> Integer) -> Integer -> Integer
-prob3 step n = error "Implement me!"
+prob3 step n = recursive n 0
+  where
+    recursive :: Integer -> Integer -> Integer
+    recursive 1 i = i
+    recursive n i = recursive (step n) (i+1)
+--  count = 0
+--  until (n!=1) $ do
+--    count += 1
+--    n = step n
+
+--
+--do
+--  let i = 0
+--  unless (n!=1) $ do
+--    let i = i + 1
+--    n = step n
+--  return i;
 
 
 ------------------------------------------------------------
@@ -68,7 +84,11 @@ prob3 step n = error "Implement me!"
 --
 -- Число n по модулю не превосходит 10^5
 prob4 :: Integer -> Integer
-prob4 n = error "Implement me!"
+--TODO почему фибонначи от 0 = 1 ??? https://ru.wikipedia.org/wiki/%D0%9E%D0%B1%D0%BE%D0%B1%D1%89%D0%B5%D0%BD%D0%B8%D0%B5_%D1%87%D0%B8%D1%81%D0%B5%D0%BB_%D0%A4%D0%B8%D0%B1%D0%BE%D0%BD%D0%B0%D1%87%D1%87%D0%B8#%D0%A0%D0%B0%D1%81%D1%88%D0%B8%D1%80%D0%B5%D0%BD%D0%B8%D0%B5_%D0%BD%D0%B0_%D0%BE%D1%82%D1%80%D0%B8%D1%86%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5_%D1%87%D0%B8%D1%81%D0%BB%D0%B0
+prob4 0 = 0
+prob4 1 = 1
+prob4 (-1) = 0 
+prob4 n = if n>0 then prob4 (n - 1) + prob4 (n - 2) else (-1)^abs n * prob4(abs (n+1))
 
 
 ------------------------------------------------------------
