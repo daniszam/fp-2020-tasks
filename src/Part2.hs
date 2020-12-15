@@ -39,7 +39,10 @@ prob8 color part= case part of
 -- Написать функцию, которая возвращает значение из
 -- ColorPart
 prob9 :: ColorPart -> Int
-prob9 = error "Implement me!"
+prob9 color  =  case color of 
+    Red x -> x
+    Green x -> x
+    Blue x -> x
 
 ------------------------------------------------------------
 -- PROBLEM #10
@@ -47,14 +50,30 @@ prob9 = error "Implement me!"
 -- Написать функцию, которая возвращает компонент Color, у
 -- которого наибольшее значение (если такой единственный)
 prob10 :: Color -> Maybe ColorPart
-prob10 = error "Implement me!"
+prob10 color 
+    | red color > green color && red color > blue color = Just (Red (red color))
+    | green color > blue color && green color > red color = Just (Green (green color))
+    | blue color > green color && blue color > red color = Just (Blue (blue color))
+    | otherwise = Nothing
 
 ------------------------------------------------------------
 -- PROBLEM #11
 --
 -- Найти сумму элементов дерева
+--TODO неправильный тест ??? Tree 
+-- {left = Just (Tree {left = Nothing, root = 1, right = Nothing}),
+-- root = 3, right = Just (Tree {left = Just (Tree {left = Nothing, root = 5, right = Nothing}),
+-- root = 6, right = Nothing})}
+-- почему-то в тесте указано (1 2 (3 4 (5 6 nil)))
 prob11 :: Num a => Tree a -> a
-prob11 = error "Implement me!"
+prob11 tree = sum (toList tree)
+
+
+toList :: Tree a -> [a]
+toList tree = [root tree] ++ maybeToList (left tree) ++ maybeToList (right tree)
+   where maybeToList (Just x) = toList x
+         maybeToList Nothing  = []
+        
 
 ------------------------------------------------------------
 -- PROBLEM #12
