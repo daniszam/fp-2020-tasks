@@ -116,8 +116,14 @@ find a (Just tree)
 -- Заменить () на числа в порядке обхода "правый, левый,
 -- корень", начиная с 1
 prob14 :: Tree () -> Tree Int
-prob14 = error "Implement me!"
+prob14 tree = changeToInt tree 1
 
+changeToInt :: Tree () -> Int -> Tree Int
+changeToInt tree currentNum = Tree {left = getTree (left tree) (currentNum+2), root=currentNum, right=getTree (right tree) (currentNum+1)}
+
+getTree :: Maybe (Tree ()) -> Int -> Maybe (Tree Int)
+getTree Nothing x = Nothing
+getTree (Just tree) currentNum = Just (Tree {left = getTree (left tree) (currentNum+2), root=currentNum, right=getTree (right tree) (currentNum+1)})
 ------------------------------------------------------------
 -- PROBLEM #15
 --
