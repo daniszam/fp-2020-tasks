@@ -5,7 +5,11 @@ module Part3 where
 --
 -- Проверить, является ли число N простым (1 <= N <= 10^9)
 prob18 :: Integer -> Bool
-prob18 = error "Implement me!"
+prob18 1 = False
+prob18 n = all check [2..n `div` 2]
+                       where check x = n `mod` x /= 0
+
+
 
 ------------------------------------------------------------
 -- PROBLEM #19
