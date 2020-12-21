@@ -166,7 +166,18 @@ prob15 tree = Tree {left = leftTree, root = num, right = rightTree}
 -- Выполнить вращение дерева вправо относительно корня
 -- (https://en.wikipedia.org/wiki/Tree_rotation)
 prob16 :: Tree a -> Tree a
-prob16 = error "Implement me!"
+prob16 tree = Tree {left = leftTree, root = num, right = rightTree}
+           where
+             p = getLeft (left tree)
+               where
+                 getLeft :: Maybe (Tree a) -> Tree a
+                 getLeft Nothing = error "No left tree"
+                 getLeft (Just treeP) = treeP
+         
+             rightTreeB = right p
+             rightTree = Just (Tree {left = rightTreeB, root = root tree, right = right tree})
+             num = root p
+             leftTree = left p
 
 ------------------------------------------------------------
 -- PROBLEM #17
