@@ -70,7 +70,7 @@ prob11 :: Num a => Tree a -> a
 prob11 tree = sum (toList tree)
 
 toList :: Tree a -> [a]
-toList tree = [root tree] ++ maybeToList (left tree) ++ maybeToList (right tree)
+toList tree = maybeToList (left tree) ++ [root tree] ++ maybeToList (right tree)
   where
     maybeToList (Just x) = toList x
     maybeToList Nothing = []
@@ -101,13 +101,13 @@ checkLeft (Just tree) parent = root tree < parent && checkLeft (left tree) (root
 -- поддерево, в корне которого находится значение, если оно
 -- есть в дереве поиска; если его нет - вернуть Nothing
 prob13 :: Ord a => a -> Tree a -> Maybe (Tree a)
-prob13 a tree = find a (Just tree)
+prob13 a tree = hasValue a (Just tree)
 
-find :: Ord a => a -> Maybe (Tree a) -> Maybe (Tree a)
-find a Nothing = Nothing
-find a (Just tree)
-  | a > root tree = find a (right tree)
-  | a < root tree = find a (left tree)
+hasValue :: Ord a => a -> Maybe (Tree a) -> Maybe (Tree a)
+hasValue a Nothing = Nothing
+hasValue a (Just tree)
+  | a > root tree = hasValue a (right tree)
+  | a < root tree = hasValue a (left tree)
   | otherwise = Just tree
 
 ------------------------------------------------------------
@@ -167,17 +167,17 @@ prob15 tree = Tree {left = leftTree, root = num, right = rightTree}
 -- (https://en.wikipedia.org/wiki/Tree_rotation)
 prob16 :: Tree a -> Tree a
 prob16 tree = Tree {left = leftTree, root = num, right = rightTree}
-           where
-             p = getLeft (left tree)
-               where
-                 getLeft :: Maybe (Tree a) -> Tree a
-                 getLeft Nothing = error "No left tree"
-                 getLeft (Just treeP) = treeP
-         
-             rightTreeB = right p
-             rightTree = Just (Tree {left = rightTreeB, root = root tree, right = right tree})
-             num = root p
-             leftTree = left p
+  where
+    p = getLeft (left tree)
+      where
+        getLeft :: Maybe (Tree a) -> Tree a
+        getLeft Nothing = error "No left tree"
+        getLeft (Just treeP) = treeP
+
+    rightTreeB = right p
+    rightTree = Just (Tree {left = rightTreeB, root = root tree, right = right tree})
+    num = root p
+    leftTree = left p
 
 ------------------------------------------------------------
 -- PROBLEM #17
@@ -186,4 +186,17 @@ prob16 tree = Tree {left = leftTree, root = num, right = rightTree}
 -- разница высот поддеревьев не превосходила по модулю 1
 -- (например, преобразовать в полное бинарное дерево)
 prob17 :: Tree a -> Tree a
-prob17 = error "Implement me!"
+prob17 tree = case buildBalanced (toList tree) of
+                   Just a -> a
+                   Nothing -> tree
+ 
+buildBalanced :: [a] -> Maybe (Tree a)
+buildBalanced [] = Nothing
+buildBalanced elts =
+  Just (Tree
+    (buildBalanced $ take half elts)
+    (elts !! half)
+    (buildBalanced $ drop (half + 1) elts))
+  where
+    half = length elts `quot` 2
+       
