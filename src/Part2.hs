@@ -146,18 +146,11 @@ getTree (Just tree) currentNum = Just (Tree {left = leftTree, root = num, right 
 -- Выполнить вращение дерева влево относительно корня
 -- (https://en.wikipedia.org/wiki/Tree_rotation)
 prob15 :: Tree a -> Tree a
-prob15 tree = Tree {left = leftTree, root = num, right = rightTree}
-  where
-    q = getRight (right tree)
-      where
-        getRight :: Maybe (Tree a) -> Tree a
-        getRight Nothing = error "No right tree"
-        getRight (Just treeQ) = treeQ
-
-    rightTreeB = left q
-    leftTree = Just (Tree {left = left tree, root = root tree, right = rightTreeB})
-    num = root q
-    rightTree = right q
+prob15 tree = maybe tree rotateLeft (right tree)
+                           where
+                               rotateLeft q = q { left = Just oldRoot }
+                                   where
+                                       oldRoot = tree { right = left q }
 
 ------------------------------------------------------------
 -- PROBLEM #16
@@ -165,18 +158,11 @@ prob15 tree = Tree {left = leftTree, root = num, right = rightTree}
 -- Выполнить вращение дерева вправо относительно корня
 -- (https://en.wikipedia.org/wiki/Tree_rotation)
 prob16 :: Tree a -> Tree a
-prob16 tree = Tree {left = leftTree, root = num, right = rightTree}
-  where
-    p = getLeft (left tree)
-      where
-        getLeft :: Maybe (Tree a) -> Tree a
-        getLeft Nothing = error "No left tree"
-        getLeft (Just treeP) = treeP
-
-    rightTreeB = right p
-    rightTree = Just (Tree {left = rightTreeB, root = root tree, right = right tree})
-    num = root p
-    leftTree = left p
+prob16 tree = maybe tree rotateLeft (left tree)
+                  where
+                      rotateLeft p = p { right = Just oldRoot }
+                          where
+                              oldRoot = tree { left = right p }
 
 ------------------------------------------------------------
 -- PROBLEM #17
