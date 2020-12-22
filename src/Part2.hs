@@ -158,9 +158,9 @@ prob15 tree = maybe tree rotateLeft (right tree)
 -- Выполнить вращение дерева вправо относительно корня
 -- (https://en.wikipedia.org/wiki/Tree_rotation)
 prob16 :: Tree a -> Tree a
-prob16 tree = maybe tree rotateLeft (left tree)
+prob16 tree = maybe tree rotateRight (left tree)
                   where
-                      rotateLeft p = p { right = Just oldRoot }
+                      rotateRight p = p { right = Just oldRoot }
                           where
                               oldRoot = tree { left = right p }
 
