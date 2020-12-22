@@ -84,10 +84,17 @@ prob3 step n = recursive n 0
 --
 -- Число n по модулю не превосходит 10^5
 prob4 :: Integer -> Integer
-prob4 0 = 1
-prob4 1 = 1
-prob4 (-1) = 0
-prob4 n = if n>0 then prob4 (n - 1) + prob4 (n - 2) else prob4 (n + 2) - prob4 (n + 1)
+prob4 n = fib 1 1 n 
+ where 
+  fib :: Integer -> Integer -> Integer -> Integer
+  fib a b count 
+    | count == 0 && n >= 0 = a
+    | count == 0 && n < 0 = b
+    | otherwise = fib b c d 
+      where 
+       c = if n >= 0 then a + b else a - b
+       d = if n > 0 then count - 1 else count + 1
+    
 
 
 ------------------------------------------------------------
