@@ -106,6 +106,13 @@ prob4 n = fib 1 1 n
 -- Числа n и k положительны и не превосходят 10^8.
 -- Число 1 не считается простым числом
 prob5 :: Integer -> Integer -> Bool
-prob5 n k = ([p | p <- [2 .. n], n `mod` p == 0, [d | d <- [1 .. p], p `mod` d == 0] == [1, p]]) !! end < k
-            where
-                end = (length ([p | p <- [2 .. n], n `mod` p == 0, [d | d <- [1 .. p], p `mod` d == 0] == [1, p]])) - 1
+prob5 n k = all (< k) (primeFactors n) 
+        where 
+            factorize :: Integer -> Integer -> [Integer]
+            factorize _ 1 = [] 
+            factorize d n 
+                | d * d > n = [n]
+                | n `mod` d == 0 = d : factorize d (n `div` d)
+                | otherwise = factorize (d + 1) n
+            primeFactors :: Integer -> [Integer]
+            primeFactors = factorize 2
