@@ -43,7 +43,13 @@ prob21 n = [x | x <- [1..n], n `rem` x == 0]
 -- Подсчитать произведение количеств букв i в словах из
 -- заданной строки (списка символов)
 prob22 :: String -> Integer
-prob22 = error "Implement me!"
+prob22 str = product $ (map iCount) (words str)
+  where
+    iCount :: String -> Integer
+    iCount xs = value
+      where 
+      countI = foldl (\count char -> if char == 'i' then count + 1 else count) 0 xs
+      value = if countI > 0 then countI else 1
 
 ------------------------------------------------------------
 -- PROBLEM #23
