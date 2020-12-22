@@ -95,7 +95,10 @@ reversal = go 0
 -- сумма делителей одного (без учёта самого числа) равна
 -- другому, и наоборот
 prob26 :: Integer -> Integer -> Bool
-prob26 = error "Implement me!"
+prob26 x y = sum (divider x) == y && sum (divider y) == x
+  where 
+    divider :: Integer -> [Integer]
+    divider n = [a | a <- [1..(n-1)], n `rem` a == 0] 
 
 ------------------------------------------------------------
 -- PROBLEM #27
