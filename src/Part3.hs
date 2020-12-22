@@ -47,7 +47,7 @@ prob22 str = product $ (map iCount) (words str)
   where
     iCount :: String -> Integer
     iCount xs = value
-      where 
+      where
       countI = foldl (\count char -> if char == 'i' then count + 1 else count) 0 xs
       value = if countI > 0 then countI else 1
 
@@ -69,8 +69,13 @@ prob23 = error "Implement me!"
 -- представить как сумму чисел от 1 до какого-то K
 -- (1 <= N <= 10^10)
 prob24 :: Integer -> Bool
-prob24 = error "Implement me!"
-
+prob24 n = checkIsTriangular 1 n
+  where
+    checkIsTriangular :: Integer -> Integer -> Bool
+    checkIsTriangular k currentN
+      | sum [0 .. k] == currentN = True
+      | sum [0 .. k] > currentN || k >= (currentN `div` 2) = False
+      | otherwise = checkIsTriangular (k+1) currentN
 ------------------------------------------------------------
 -- PROBLEM #25
 --
