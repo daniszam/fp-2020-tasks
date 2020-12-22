@@ -18,10 +18,9 @@ prob6 BLUE = 'B'
 -- Написать функцию, которая проверяет, что значения
 -- находятся в диапазоне от 0 до 255 (границы входят)
 prob7 :: ColorPart -> Bool
-prob7 color = case color of
-  Red x -> x >= 0 && x < 255
-  Green x -> x >= 0 && x < 255
-  Blue x -> x >= 0 && x < 255
+prob7 color = getInt >= 0 && getInt <= 255
+      where
+        getInt = prob9 color
 
 ------------------------------------------------------------
 -- PROBLEM #8
