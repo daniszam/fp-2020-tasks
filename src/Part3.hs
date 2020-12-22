@@ -82,8 +82,12 @@ prob24 n = checkIsTriangular 1 n
 -- Проверить, что запись числа является палиндромом (т.е.
 -- читается одинаково слева направо и справа налево)
 prob25 :: Integer -> Bool
-prob25 = error "Implement me!"
+prob25 x = reversal x == x
 
+reversal :: Integral a => a -> a
+reversal = go 0
+  where go a 0 = a
+        go a b = let (q,r) = b `quotRem` 10 in go (a*10 + r) q
 ------------------------------------------------------------
 -- PROBLEM #26
 --
