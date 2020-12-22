@@ -99,4 +99,6 @@ prob4 n = if n>0 then prob4 (n - 1) + prob4 (n - 2) else prob4 (n + 2) - prob4 (
 -- Числа n и k положительны и не превосходят 10^8.
 -- Число 1 не считается простым числом
 prob5 :: Integer -> Integer -> Bool
-prob5 n k = last ([p | p <- [2 .. n], n `mod` p == 0, [d | d <- [1 .. p], p `mod` d == 0] == [1, p]]) < k
+prob5 n k = ([p | p <- [2 .. n], n `mod` p == 0, [d | d <- [1 .. p], p `mod` d == 0] == [1, p]]) !! end < k
+            where
+                end = (length ([p | p <- [2 .. n], n `mod` p == 0, [d | d <- [1 .. p], p `mod` d == 0] == [1, p]])) - 1
