@@ -91,13 +91,9 @@ prob23 = error "Implement me!"
 -- представить как сумму чисел от 1 до какого-то K
 -- (1 <= N <= 10^10)
 prob24 :: Integer -> Bool
-prob24 n = checkIsTriangular 1 n
-  where
-    checkIsTriangular :: Integer -> Integer -> Bool
-    checkIsTriangular k currentN
-      | sum [0 .. k] == currentN = True
-      | sum [0 .. k] > currentN || k >= (currentN `div` 2) = False
-      | otherwise = checkIsTriangular (k + 1) currentN
+prob24 n = isPerfect (8 * n + 1)
+             where isPerfect m = r * r == m
+                     where r = floor . sqrt $ fromIntegral m
 
 ------------------------------------------------------------
 -- PROBLEM #25
