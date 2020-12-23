@@ -121,24 +121,36 @@ changeToInt :: Tree () -> Int -> Tree Int
 changeToInt tree currentNum = Tree {left = leftTree, root = num, right = rightTree}
   where
     rightTree = getTree (right tree) currentNum
-    num = getRootNum rightTree
+    rightNum = getRootNum rightTree
       where
         getRootNum :: Maybe (Tree Int) -> Int
         getRootNum Nothing = currentNum
         getRootNum (Just tree) = root tree + 1
-    leftTree = getTree (left tree) (num + 1)
+       
+    leftTree = getTree (left tree) rightNum
+    num = getNum leftTree
+      where
+        getNum :: Maybe (Tree Int) -> Int
+        getNum Nothing = rightNum
+        getNum (Just tree) = root tree + 1
 
 getTree :: Maybe (Tree ()) -> Int -> Maybe (Tree Int)
 getTree Nothing x = Nothing
 getTree (Just tree) currentNum = Just (Tree {left = leftTree, root = num, right = rightTree})
   where
     rightTree = getTree (right tree) currentNum
-    num = getRootNum rightTree
+    rightNum = getRootNum rightTree
       where
         getRootNum :: Maybe (Tree Int) -> Int
         getRootNum Nothing = currentNum
         getRootNum (Just tree) = root tree + 1
-    leftTree = getTree (left tree) (num + 1)
+       
+    leftTree = getTree (left tree) rightNum
+    num = getNum leftTree
+      where
+        getNum :: Maybe (Tree Int) -> Int
+        getNum Nothing = rightNum
+        getNum (Just tree) = root tree + 1
 
 ------------------------------------------------------------
 -- PROBLEM #15
