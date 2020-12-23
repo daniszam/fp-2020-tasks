@@ -6,10 +6,13 @@ module Part3 where
 -- Проверить, является ли число N простым (1 <= N <= 10^9)
 prob18 :: Integer -> Bool
 prob18 1 = False
-prob18 n = all check [2..n `div` 2]
-                       where check x = n `mod` x /= 0
-
-
+prob18 m = isPrime m 2
+  where
+    isPrime :: Integer -> Integer -> Bool
+    isPrime m i
+      | i * i > m = True
+      | m `rem` i == 0 = False
+      | otherwise = isPrime m (i + 1)
 
 ------------------------------------------------------------
 -- PROBLEM #19
@@ -28,32 +31,39 @@ prob19 = error "Implement me!"
 -- самого числа)
 prob20 :: Integer -> Bool
 prob20 a = a == sum (removeItem a (divisors a))
-  
-removeItem :: Integer -> [Integer] -> [Integer]                      
-removeItem _ []                 = []
-removeItem x (y:ys) | x == y    = removeItem x ys
-                    | otherwise = y : removeItem x ys
-                                   
+
+removeItem :: Integer -> [Integer] -> [Integer]
+removeItem _ [] = []
+removeItem x (y : ys)
+  | x == y = removeItem x ys
+  | otherwise = y : removeItem x ys
+
 divisors :: Integer -> [Integer]
 divisors 1 = [1]
-divisors k = k : concatMap
-                   (\ x -> [x, k `div` x])
-                   (filter (\ x -> k `mod` x == 0)
-                   $ takeWhile (\ x -> x * x <= k) [2 .. ]) ++ [1]
+divisors k =
+  k :
+  concatMap
+    (\x -> [x, k `div` x])
+    ( filter (\x -> k `mod` x == 0) $
+        takeWhile (\x -> x * x <= k) [2 ..]
+    )
+    ++ [1]
+
 ------------------------------------------------------------
 -- PROBLEM #21
 --
 -- Вернуть список всех делителей числа N (1<=N<=10^10) в
 -- порядке возрастания
 prob21 :: Integer -> [Integer]
-prob21 n =  quicksort  (divisors n)
+prob21 n = quicksort (divisors n)
 
 quicksort :: Ord a => [a] -> [a]
-quicksort []     = []
-quicksort (p:xs) = (quicksort lesser) ++ [p] ++ (quicksort greater)
-    where
-        lesser  = filter (< p) xs
-        greater = filter (>= p) xs
+quicksort [] = []
+quicksort (p : xs) = (quicksort lesser) ++ [p] ++ (quicksort greater)
+  where
+    lesser = filter (< p) xs
+    greater = filter (>= p) xs
+
 ------------------------------------------------------------
 -- PROBLEM #22
 --
@@ -63,7 +73,7 @@ prob22 :: String -> Integer
 prob22 str = product $ (map iCount) (words str)
   where
     iCount :: String -> Integer
-    iCount xs = toInteger (length (filter (=='i') xs))
+    iCount xs = toInteger (length (filter (== 'i') xs))
 
 ------------------------------------------------------------
 -- PROBLEM #23
@@ -89,7 +99,8 @@ prob24 n = checkIsTriangular 1 n
     checkIsTriangular k currentN
       | sum [0 .. k] == currentN = True
       | sum [0 .. k] > currentN || k >= (currentN `div` 2) = False
-      | otherwise = checkIsTriangular (k+1) currentN
+      | otherwise = checkIsTriangular (k + 1) currentN
+
 ------------------------------------------------------------
 -- PROBLEM #25
 --
@@ -100,8 +111,10 @@ prob25 x = reversal x == x
 
 reversal :: Integral a => a -> a
 reversal = go 0
-  where go a 0 = a
-        go a b = let (q,r) = b `quotRem` 10 in go (a*10 + r) q
+  where
+    go a 0 = a
+    go a b = let (q, r) = b `quotRem` 10 in go (a * 10 + r) q
+
 ------------------------------------------------------------
 -- PROBLEM #26
 --
@@ -110,9 +123,9 @@ reversal = go 0
 -- другому, и наоборот
 prob26 :: Integer -> Integer -> Bool
 prob26 x y = sum (divider x) == y && sum (divider y) == x
-  where 
+  where
     divider :: Integer -> [Integer]
-    divider n = [a | a <- [1..(n-1)], n `rem` a == 0] 
+    divider n = [a | a <- [1 .. (n -1)], n `rem` a == 0]
 
 ------------------------------------------------------------
 -- PROBLEM #27
