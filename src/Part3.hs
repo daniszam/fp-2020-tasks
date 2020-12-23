@@ -46,10 +46,7 @@ prob22 :: String -> Integer
 prob22 str = product $ (map iCount) (words str)
   where
     iCount :: String -> Integer
-    iCount xs = value
-      where
-      countI = foldl (\count char -> if char == 'i' then count + 1 else count) 0 xs
-      value = if countI > 0 then countI else 1
+    iCount xs = toInteger (length (filter (=='i') xs))
 
 ------------------------------------------------------------
 -- PROBLEM #23
