@@ -27,16 +27,33 @@ prob19 = error "Implement me!"
 -- Совершенное число равно сумме своих делителей (меньших
 -- самого числа)
 prob20 :: Integer -> Bool
-prob20 n = n == sum [i | i <- [1..n-1], n `mod` i == 0]
-
+prob20 a = a == sum (removeItem a (divisors a))
+  
+removeItem :: Integer -> [Integer] -> [Integer]                      
+removeItem _ []                 = []
+removeItem x (y:ys) | x == y    = removeItem x ys
+                    | otherwise = y : removeItem x ys
+                                   
+divisors :: Integer -> [Integer]
+divisors 1 = [1]
+divisors k = k : concatMap
+                   (\ x -> [x, k `div` x])
+                   (filter (\ x -> k `mod` x == 0)
+                   $ takeWhile (\ x -> x * x <= k) [2 .. ]) ++ [1]
 ------------------------------------------------------------
 -- PROBLEM #21
 --
 -- Вернуть список всех делителей числа N (1<=N<=10^10) в
 -- порядке возрастания
 prob21 :: Integer -> [Integer]
-prob21 n = [x | x <- [1..n], n `rem` x == 0]
+prob21 n =  quicksort  (divisors n)
 
+quicksort :: Ord a => [a] -> [a]
+quicksort []     = []
+quicksort (p:xs) = (quicksort lesser) ++ [p] ++ (quicksort greater)
+    where
+        lesser  = filter (< p) xs
+        greater = filter (>= p) xs
 ------------------------------------------------------------
 -- PROBLEM #22
 --
