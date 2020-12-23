@@ -82,8 +82,26 @@ prob22 str = product $ (map iCount) (words str)
 -- M > 0 и N > 0. Если M > N, то вернуть символы из W в
 -- обратном порядке. Нумерация символов с единицы.
 prob23 :: String -> Maybe String
-prob23 = error "Implement me!"
+prob23 str = parse str
+             where
+                 parse :: String -> Maybe String
+                 parse input = do
+                     let leftN =  read $ takeWhile (/= '-') input
+                     let rightM =  read $ takeWhile (/= ':') $ tail $ dropWhile (/= '-') input
+                     let parseStr = tail $ dropWhile (/= ' ') input
+                     result leftN rightM parseStr
+                   
+                                  
+                                  
+result :: Int -> Int -> String -> Maybe String
+result leftN rightM parseString 
+  | leftN > (length parseString)  || rightM > (length parseString) = Nothing
+  | leftN > rightM = (Just (reverseStr (take leftN  $ drop (rightM - 1) parseString)))
+  | otherwise = (Just (take rightM  $ drop (leftN - 1) parseString))
 
+
+reverseStr :: [a] -> [a]  
+reverseStr = foldl (\acc x -> x : acc) [] 
 ------------------------------------------------------------
 -- PROBLEM #24
 --
