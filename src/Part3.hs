@@ -144,7 +144,10 @@ prob28 = error "Implement me!"
 -- Найти наибольшее число-палиндром, которое является
 -- произведением двух K-значных (1 <= K <= 3)
 prob29 :: Int -> Int
-prob29 k = error "Implement me!"
+prob29 k = maximum [x * y |x <- [min .. max],y <- [min .. max], (prob25 . toInteger)  (x * y)]
+               where
+                   min = 10 ^ (k - 1)
+                   max = 10 ^ k - 1
 
 ------------------------------------------------------------
 -- PROBLEM #30
