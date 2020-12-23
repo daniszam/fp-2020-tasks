@@ -43,10 +43,8 @@ divisors 1 = [1]
 divisors k =
   k :
   concatMap
-    (\x -> [x, k `div` x])
-    ( filter (\x -> k `mod` x == 0) $
-        takeWhile (\x -> x * x <= k) [2 ..]
-    )
+    (\x -> [x] ++ if k `div` x == x then [] else [k `div` x])
+    ( filter (\x -> k `mod` x == 0) $ takeWhile (\x -> x * x <= k) [2 ..])
     ++ [1]
 
 ------------------------------------------------------------
