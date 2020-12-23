@@ -163,8 +163,7 @@ prob30 = error "Implement me!"
 -- Найти сумму всех пар различных дружественных чисел,
 -- меньших заданного N (1 <= N <= 10000)
 prob31 :: Int -> Int
-prob31 = error "Implement me!"
-
+prob31 n = sum [x + y |x <- [1 .. n],y <- [x+1 .. n], prob26 (toInteger x) (toInteger y)]
 ------------------------------------------------------------
 -- PROBLEM #32
 --
